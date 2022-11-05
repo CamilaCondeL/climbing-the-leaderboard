@@ -17,4 +17,43 @@ const evalueRank = (array) => {
 	return rank;
 }
 
-module.exports = { evalueRank };
+climbingLeaderBoard = (ranked, player) => {
+	const results = [];
+	let playerIndex = 0;
+	let position = 0;
+
+	for (let i = 0; i < player.length; i++) {
+		for (let j = ranked.length - 1; j >= 0; j--) {
+
+			if ((player[i] > ranked[j]) && j == 0) {
+				if (playerIndex > 0) {
+					ranked.splice(playerIndex, 1);
+				}
+
+				ranked.splice(j, 0, player[i]);
+				playerIndex = j;
+				const newArr = evalueRank(ranked);
+				results.push(newArr[playerIndex]);
+				break;
+			}
+
+			if (player[i] < ranked[j]) {
+				if (playerIndex > 0) {
+					ranked.splice(playerIndex, 1);
+					console.log("ranked array after deleting previous player value " + ranked);
+				}
+
+				ranked.splice(j + 1, 0, player[i]);
+				playerIndex = j + 1;
+				const newArr = evalueRank(ranked);
+				results.push(newArr[playerIndex]);
+				break;
+			}
+		}
+
+	}
+
+	return results;
+}
+
+module.exports = { evalueRank, climbingLeaderBoard };
